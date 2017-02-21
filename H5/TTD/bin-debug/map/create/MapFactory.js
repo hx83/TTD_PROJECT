@@ -23,6 +23,8 @@ var map;
             if (p == null) {
                 this.list.push(this.prevNode);
             }
+            this.bendingRank = map.MapConfig.getBendingRank(level);
+            this.separateRank = map.MapConfig.getSeparateRank(level);
             this.create(level);
             var firstNode = this.list[0];
             firstNode.type = map.GridType.FIRST;
@@ -44,8 +46,24 @@ var map;
                 else if (this.prevNode.dir == player.Direction.RIGHT) {
                     dirArr.push(player.Direction.RIGHT, player.Direction.TOP);
                 }
-                var n = Math.floor(Math.random() * dirArr.length);
-                node = this.createNode(dirArr[n]);
+                //根据崎岖程度判定是否需要拐弯
+                if (this.count % this.bendingRank == 0) {
+                    var n = Math.floor(Math.random() * dirArr.length);
+                    node = this.createNode(dirArr[n]);
+                }
+                else {
+                    node = this.createNode(this.prevNode.dir);
+                }
+                //根据空白程度，决定是否将格子变成空白路径
+                if (this.count % this.separateRank == 0) {
+                    //当前格子创建好以后才能决定他的上一个格子是否可以为空白路，因为当前格子可能就是拐点
+                    //如果直接改变当前格子，那么拐点有可能就变成空白格了
+                    if (node.prevNode.prevNode != null) {
+                        if (node.prevNode.dir == node.dir && node.prevNode.prevNode.type != map.GridType.EMPTY) {
+                            node.prevNode.type = map.GridType.EMPTY;
+                        }
+                    }
+                }
             }
             node.mapLevel = level;
             //
@@ -88,11 +106,15 @@ var map;
             }
             return node;
         };
+        //根据格子类型，生成具体的格子
         MapFactory.getGridByType = function (type) {
             var grid;
             switch (type) {
                 case map.GridType.NORMAL:
                     grid = new map.BaseGrid();
+                    break;
+                case map.GridType.EMPTY:
+                    grid = new map.EmptyGrid();
                     break;
                 case map.GridType.FIRST:
                     grid = new map.FirstGrid();

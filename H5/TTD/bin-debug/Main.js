@@ -111,10 +111,25 @@ var Main = (function (_super) {
      * Create a game scene
      */
     Main.prototype.createGameScene = function () {
-        this.mainMenu = new ui.MainMenu();
-        this.addChild(this.mainMenu);
+        var xscale = this.stage.stageWidth / 640;
+        var yscale = this.stage.stageHeight / 1136;
+        var s = Math.min(xscale, yscale);
+        this.container = new egret.Sprite();
+        this.container.width = 640;
+        this.container.height = 1136;
+        // this.container.graphics.beginFill(0xe8decf,1);
+        // this.container.graphics.drawRect(0,0,750,1334);
+        // this.container.graphics.endFill();
+        this.container.scaleX = this.container.scaleY = s;
+        this.stage.addChild(this.container);
+        this.container.anchorOffsetX = 640 / 2;
+        this.container.anchorOffsetY = 1136 / 2;
+        this.container.x = this.stage.stageWidth / 2;
+        this.container.y = this.stage.stageHeight / 2;
         this.gameScene = new ui.GameScene();
-        this.gameScene.alpha = 0;
+        this.container.addChild(this.gameScene);
+        this.mainMenu = new ui.MainMenu();
+        this.container.addChild(this.mainMenu);
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this);
@@ -140,13 +155,10 @@ var Main = (function (_super) {
     Main.prototype.startAnimation = function (result) {
     };
     Main.prototype.startGame = function () {
-        egret.Tween.get(this.mainMenu).to({ alpha: 0 }, 200).call(this.showGameScene, this);
-    };
-    Main.prototype.showGameScene = function () {
-        this.addChild(this.gameScene);
-        egret.Tween.get(this.gameScene).to({ alpha: 1 }, 200).call(this.runGameScene, this);
+        egret.Tween.get(this.mainMenu).to({ alpha: 0 }, 200).call(this.runGameScene, this);
     };
     Main.prototype.runGameScene = function () {
+        utils.DisplayObjectUtil.removeFromParent(this.mainMenu);
         this.gameScene.start();
     };
     return Main;

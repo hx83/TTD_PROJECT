@@ -10,15 +10,17 @@ var game_file_list = [
 	"libs/modules/tween/tween.js",
 	"libs/modules/socket/socket.js",
 	"bin-debug/map/grid/BaseGrid.js",
-	"bin-debug/Camera.js",
+	"bin-debug/LoadingUI.js",
 	"bin-debug/Main.js",
 	"bin-debug/StageManager.js",
 	"bin-debug/compoent/Button.js",
 	"bin-debug/events/GameEvent.js",
 	"bin-debug/map/Map.js",
+	"bin-debug/map/create/MapConfig.js",
 	"bin-debug/map/create/MapFactory.js",
 	"bin-debug/map/create/MapNode.js",
-	"bin-debug/LoadingUI.js",
+	"bin-debug/utils/DisplayObjectUtil.js",
+	"bin-debug/map/grid/EmptyGrid.js",
 	"bin-debug/map/grid/FirstGrid.js",
 	"bin-debug/map/grid/GridConst.js",
 	"bin-debug/player/Direction.js",
@@ -27,7 +29,7 @@ var game_file_list = [
 	"bin-debug/ui/MainMenu.js",
 	"bin-debug/ui/ResultPanel.js",
 	"bin-debug/utils/Dictionary.js",
-	"bin-debug/utils/DisplayObjectUtil.js",
+	"bin-debug/Camera.js",
 	//----auto game_file_list end----
 ];
 
@@ -62,7 +64,7 @@ egret_native.egretStart = function () {
         //----auto option start----
 		entryClassName: "Main",
 		frameRate: 30,
-		scaleMode: "fixedHeight",
+		scaleMode: "showAll",
 		contentWidth: 640,
 		contentHeight: 1136,
 		showPaintRect: false,

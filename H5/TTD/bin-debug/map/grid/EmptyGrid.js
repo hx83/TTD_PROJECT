@@ -8,22 +8,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var map;
 (function (map) {
-    var FirstGrid = (function (_super) {
-        __extends(FirstGrid, _super);
-        function FirstGrid() {
+    var EmptyGrid = (function (_super) {
+        __extends(EmptyGrid, _super);
+        function EmptyGrid() {
             return _super.call(this) || this;
         }
-        FirstGrid.prototype.setGridSkin = function () {
+        EmptyGrid.prototype.setGridSkin = function () {
             var c = this.getGridColor();
-            this.graphics.clear();
-            this.graphics.beginFill(c);
-            //this.graphics.lineStyle(1,0);
-            this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE * 1.5);
+            this.graphics.beginFill(c, 0.0);
+            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
             this.graphics.endFill();
         };
-        return FirstGrid;
+        return EmptyGrid;
     }(map.BaseGrid));
-    map.FirstGrid = FirstGrid;
-    __reflect(FirstGrid.prototype, "map.FirstGrid");
+    map.EmptyGrid = EmptyGrid;
+    __reflect(EmptyGrid.prototype, "map.EmptyGrid");
 })(map || (map = {}));
-//# sourceMappingURL=FirstGrid.js.map
+//# sourceMappingURL=EmptyGrid.js.map

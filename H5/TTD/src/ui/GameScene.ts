@@ -21,7 +21,6 @@ module ui
 		{
 			super();
 
-
 			this.graphics.beginFill(0x00ccff);
 			this.graphics.drawRect(0,0,StageManager.stageWidth,StageManager.stageHeight);
 			this.graphics.endFill();

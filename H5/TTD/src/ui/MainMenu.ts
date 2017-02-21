@@ -9,21 +9,12 @@ module ui
 
 			var bg = utils.DisplayObjectUtil.createBitmapByName("main_menu_bg_png");
 			this.addChild(bg);
-			
-			var scale = StageManager.stageWidth/bg.width;
-			bg.width *= scale;
-			bg.height *= scale;
 
-			bg.y = StageManager.stageHeight - bg.height;
-
-
-			var btn:egret.Bitmap = utils.DisplayObjectUtil.createBitmapByName("main_menu_start_btn_png");
-			btn.width *= scale;
-			btn.height *= scale;
+			var btn:tui.Button = new tui.Button(utils.DisplayObjectUtil.createBitmapByName("main_menu_start_btn_png"));
 			this.addChild(btn);
 
-			btn.x = (StageManager.stageWidth - btn.width)/2;
-			btn.y = StageManager.stageHeight - 450*scale - btn.height/2;
+			btn.x = (bg.width)/2;
+			btn.y = bg.height - 450;
 			btn.touchEnabled = true;
 			btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.startHandler,this);
 		}
