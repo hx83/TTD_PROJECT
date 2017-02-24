@@ -6,6 +6,9 @@ var map;
     var MapConfig = (function () {
         function MapConfig() {
         }
+        MapConfig.getMapLength = function (mapLevel) {
+            return 32;
+        };
         /**获取地图配置的崎岖度 -- 控制拐点频率*/
         MapConfig.getBendingRank = function (mapLevel) {
             if (mapLevel == 1) {
@@ -20,7 +23,7 @@ var map;
                 if (n <= 0) {
                     n = 1;
                 }
-                return n;
+                return 3;
             }
         };
         /**获取地图配置的间隔度 -- 控制路径上出现空白的频率*/
@@ -34,7 +37,7 @@ var map;
                 if (n <= 0) {
                     n = 1;
                 }
-                return n;
+                return 3;
             }
         };
         return MapConfig;

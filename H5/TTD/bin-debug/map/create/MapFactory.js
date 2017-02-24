@@ -9,9 +9,10 @@ var map;
         }
         //根据初始点创建地图
         MapFactory.createMapData = function (level, p) {
+            if (p === void 0) { p = null; }
             //this.dirArr = new Array<player.Direction>();
             //this.dirArr.push(player.Direction.LEFT,player.Direction.RIGHT,player.Direction.TOP);
-            if (p === void 0) { p = null; }
+            this.MAX = map.MapConfig.getMapLength(level);
             this.count = 0;
             if (p == null) {
                 this.prevNode = new map.MapNode();
@@ -32,7 +33,7 @@ var map;
         };
         MapFactory.create = function (level) {
             var node;
-            if (this.count < 5 || this.count > this.MAX - 5) {
+            if (this.count < 10000 || this.count > this.MAX - 100) {
                 node = this.createNode(player.Direction.TOP);
             }
             else {
@@ -59,7 +60,7 @@ var map;
                     //当前格子创建好以后才能决定他的上一个格子是否可以为空白路，因为当前格子可能就是拐点
                     //如果直接改变当前格子，那么拐点有可能就变成空白格了
                     if (node.prevNode.prevNode != null) {
-                        if (node.prevNode.dir == node.dir && node.prevNode.prevNode.type != map.GridType.EMPTY) {
+                        if (node.prevNode.dir == node.dir && node.prevNode.prevNode.dir == node.dir && node.prevNode.prevNode.type != map.GridType.EMPTY) {
                             node.prevNode.type = map.GridType.EMPTY;
                         }
                     }

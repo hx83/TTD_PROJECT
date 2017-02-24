@@ -1,0 +1,120 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,player_skin_0_png,map_bg_png,bg_0_png,arrow_2_png,arrow_1_png,arrow_0_png,arrow_3_png,main_menu_bg_png,main_menu_start_btn_png,num_1_png,num_2_png,num_3_png,go_png,result_panel_bg_png,result_panel_score_bg_png,result_panel_gold_icon_png,result_panel_restart_btn_png,share_icon_png,home_icon_png,shop_icon_png,dead_icon_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "assets/playerSkins/player_skin_0.png",
+			"type": "image",
+			"name": "player_skin_0_png"
+		},
+		{
+			"url": "assets/mapAsset/map_bg.png",
+			"type": "image",
+			"name": "map_bg_png"
+		},
+		{
+			"name": "bg_0_png",
+			"type": "image",
+			"url": "assets/mapAsset/bg_0.png"
+		},
+		{
+			"name": "arrow_2_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_2.png"
+		},
+		{
+			"name": "arrow_1_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_1.png"
+		},
+		{
+			"name": "arrow_0_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_0.png"
+		},
+		{
+			"name": "arrow_3_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_3.png"
+		},
+		{
+			"name": "main_menu_bg_png",
+			"type": "image",
+			"url": "assets/ui/mainMenu/main_menu_bg.png"
+		},
+		{
+			"name": "main_menu_start_btn_png",
+			"type": "image",
+			"url": "assets/ui/mainMenu/main_menu_start_btn.png"
+		},
+		{
+			"name": "num_1_png",
+			"type": "image",
+			"url": "assets/ui/gameScene/num_1.png"
+		},
+		{
+			"name": "num_2_png",
+			"type": "image",
+			"url": "assets/ui/gameScene/num_2.png"
+		},
+		{
+			"name": "num_3_png",
+			"type": "image",
+			"url": "assets/ui/gameScene/num_3.png"
+		},
+		{
+			"name": "go_png",
+			"type": "image",
+			"url": "assets/ui/gameScene/go.png"
+		},
+		{
+			"name": "result_panel_bg_png",
+			"type": "image",
+			"url": "assets/ui/resultPanel/result_panel_bg.png"
+		},
+		{
+			"name": "result_panel_score_bg_png",
+			"type": "image",
+			"url": "assets/ui/resultPanel/result_panel_score_bg.png"
+		},
+		{
+			"name": "result_panel_gold_icon_png",
+			"type": "image",
+			"url": "assets/ui/resultPanel/result_panel_gold_icon.png"
+		},
+		{
+			"name": "result_panel_restart_btn_png",
+			"type": "image",
+			"url": "assets/ui/resultPanel/result_panel_restart_btn.png"
+		},
+		{
+			"name": "share_icon_png",
+			"type": "image",
+			"url": "assets/ui/icon/share_icon.png"
+		},
+		{
+			"name": "home_icon_png",
+			"type": "image",
+			"url": "assets/ui/icon/home_icon.png"
+		},
+		{
+			"name": "shop_icon_png",
+			"type": "image",
+			"url": "assets/ui/icon/shop_icon.png"
+		},
+		{
+			"name": "dead_icon_png",
+			"type": "image",
+			"url": "assets/mapAsset/dead_icon.png"
+		}
+	]
+}

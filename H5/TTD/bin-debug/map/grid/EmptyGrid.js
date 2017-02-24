@@ -19,6 +19,10 @@ var map;
             this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
             this.graphics.endFill();
         };
+        //能取到当前格子说明PLAYER肯定在格子上
+        EmptyGrid.prototype.isOnGrid = function (p) {
+            return false;
+        };
         return EmptyGrid;
     }(map.BaseGrid));
     map.EmptyGrid = EmptyGrid;

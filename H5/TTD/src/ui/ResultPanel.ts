@@ -1,7 +1,7 @@
 module ui 
 {
 	//结算界面
-	export class ResultPanel extends egret.Sprite
+	export class ResultPanel extends egret.DisplayObjectContainer
 	{
 		private bg:egret.Bitmap;
 
@@ -57,6 +57,7 @@ module ui
 			this.restartBtn.y = this.height/2 + 30;
 			this.addChild(this.restartBtn);
 			
+			this.cacheAsBitmap = true;
 
 			this.addEvent();
 		}

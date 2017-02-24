@@ -35,82 +35,111 @@ var map;
                 this.x = v.xIndex * map.GridConst.GRId_SIZE;
                 this.y = v.yIndex * map.GridConst.GRId_SIZE;
                 this.setGridSkin();
+                /**
                 //根据路径的情况绘制不同的形状
                 var c = this.getGridColor();
-                if (this.info.prevNode != null && this.info.nextNode != null && this.info.prevNode.type == map.GridType.EMPTY && this.info.nextNode.type == map.GridType.EMPTY) {
+                if(this.info.prevNode != null && this.info.nextNode != null && this.info.prevNode.type == GridType.EMPTY && this.info.nextNode.type == GridType.EMPTY)
+                {
                     this.info.isShowArrow = true;
+    
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2);
+                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
                     this.graphics.endFill();
                 }
-                else if (this.info.nextNode != null && this.info.nextNode.type == map.GridType.EMPTY) {
+                else if(this.info.nextNode != null && this.info.nextNode.type == GridType.EMPTY)
+                {
                     this.info.isShowArrow = true;
+    
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2);
-                    if (this.info.dir == player.Direction.TOP) {
-                        this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
+                    
+                    if(this.info.dir == player.Direction.TOP)
+                    {
+                        this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
                     }
-                    else if (this.info.dir == player.Direction.BOTTOM) {
-                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                    else if(this.info.dir == player.Direction.BOTTOM)
+                    {
+                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
                     }
-                    else if (this.info.dir == player.Direction.LEFT) {
-                        this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                    else if(this.info.dir == player.Direction.LEFT)
+                    {
+                        this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
                     }
-                    else if (this.info.dir == player.Direction.RIGHT) {
-                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
-                    }
-                    this.graphics.endFill();
-                }
-                else if (this.info.prevNode != null && this.info.prevNode.type == map.GridType.EMPTY) {
-                    this.info.isShowArrow = true;
-                    this.graphics.clear();
-                    this.graphics.beginFill(c);
-                    this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2);
-                    var dir = this.info.nextNode.dir;
-                    if (dir == player.Direction.TOP) {
-                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
-                    }
-                    else if (dir == player.Direction.BOTTOM) {
-                        this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
-                    }
-                    else if (dir == player.Direction.LEFT) {
-                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
-                    }
-                    else if (dir == player.Direction.RIGHT) {
-                        this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                    else if(this.info.dir == player.Direction.RIGHT)
+                    {
+                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
                     }
                     this.graphics.endFill();
                 }
-                else if (this.info.nextNode != null && this.info.nextNode.dir != this.info.dir) {
+                else if(this.info.prevNode != null && this.info.prevNode.type == GridType.EMPTY)
+                {
+                    this.info.isShowArrow = true;
+                    
+                    this.graphics.clear();
+                    this.graphics.beginFill(c);
+                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
+                    
+                    var dir:player.Direction = this.info.nextNode.dir;
+                    if(dir  == player.Direction.TOP)
+                    {
+                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    }
+                    else if(dir == player.Direction.BOTTOM)
+                    {
+                        this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    }
+                    else if(dir == player.Direction.LEFT)
+                    {
+                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    }
+                    else if(dir == player.Direction.RIGHT)
+                    {
+                        this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    }
+                    this.graphics.endFill();
+                }
+                else if(this.info.nextNode != null && this.info.nextNode.dir != this.info.dir)
+                {
                     //如果是拐角，则要圆角矩形
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawRoundRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 4, map.GridConst.GRId_SIZE / 4);
-                    if (this.info.nextNode.xIndex == this.info.xIndex) {
-                        if (this.info.dir == player.Direction.LEFT) {
-                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
-                            this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                    this.graphics.drawRoundRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE,GridConst.GRId_SIZE/4,GridConst.GRId_SIZE/4);
+    
+                    if(this.info.nextNode.xIndex == this.info.xIndex)
+                    {
+                        if(this.info.dir == player.Direction.LEFT)
+                        {
+                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
                         }
-                        else {
-                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
-                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
-                        }
-                    }
-                    else if (this.info.nextNode.yIndex == this.info.yIndex) {
-                        if (this.info.nextNode.dir == player.Direction.LEFT) {
-                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
-                            this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
-                        }
-                        else {
-                            this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
-                            this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                        else
+                        {
+                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
                         }
                     }
+                    else if(this.info.nextNode.yIndex == this.info.yIndex)
+                    {
+                        if(this.info.nextNode.dir == player.Direction.LEFT)
+                        {
+                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                        }
+                        else
+                        {
+                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                        }
+                    }
+    
                     this.graphics.endFill();
                 }
+                 */
                 //
+                var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + 1 + "_png");
+                this.addChild(bmp);
                 if (this.info.isShowArrow) {
                     var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + v.nextNode.dir + "_png");
                     this.addChild(bmp);
@@ -125,38 +154,6 @@ var map;
             },
             set: function (v) {
                 this._prevGrid = v;
-                /**
-                if(this._prevGrid != null)
-                {
-                    var c = this.getGridColor();
-                    if(this.prevGrid.info.type == GridType.EMPTY)
-                    {
-                        //上一个为空白路径，要变半圆形接头
-                        this.graphics.clear();
-                        this.graphics.beginFill(c);
-                        this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
-                        
-                        if(this.info.dir == player.Direction.TOP)
-                        {
-                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                        }
-                        else if(this.info.dir == player.Direction.BOTTOM)
-                        {
-                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                        }
-                        else if(this.info.dir == player.Direction.LEFT)
-                        {
-                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                        }
-                        else if(this.info.dir == player.Direction.RIGHT)
-                        {
-                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                        }
-                        this.graphics.endFill();
-                    }
-                }
-    
-                */
             },
             enumerable: true,
             configurable: true
@@ -167,80 +164,6 @@ var map;
             },
             set: function (v) {
                 this._nextGrid = v;
-                /**
-                            if(this.nextGrid != null)
-                            {
-                                var c = this.getGridColor();
-                                
-                                if(this.nextGrid.info.type == GridType.EMPTY)
-                                {
-                                    //下一个为空白路径，要变半圆形接头
-                                    this.graphics.clear();
-                                    this.graphics.beginFill(c);
-                                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
-                                    
-                                    if(this.prevGrid.info.type == GridType.EMPTY)
-                                    {
-                                        //如果前后都为空白的，那就直接是圆形了
-                                        return;
-                                    }
-                
-                                    if(this.info.dir == player.Direction.TOP)
-                                    {
-                                        this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                                    }
-                                    else if(this.info.dir == player.Direction.BOTTOM)
-                                    {
-                                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                                    }
-                                    else if(this.info.dir == player.Direction.LEFT)
-                                    {
-                                        this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                                    }
-                                    else if(this.info.dir == player.Direction.RIGHT)
-                                    {
-                                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                                    }
-                                    this.graphics.endFill();
-                                }
-                                else if(this.nextGrid.info.dir != this.info.dir && this.prevGrid.info.type != GridType.EMPTY)
-                                {
-                                    //如果是拐角，则要圆角矩形
-                                    this.graphics.clear();
-                                    this.graphics.beginFill(c);
-                                    this.graphics.drawRoundRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE,GridConst.GRId_SIZE/4,GridConst.GRId_SIZE/4);
-                
-                                    if(this.nextGrid.info.xIndex == this.info.xIndex)
-                                    {
-                                        if(this.info.dir == player.Direction.LEFT)
-                                        {
-                                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                                        }
-                                        else
-                                        {
-                                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                                        }
-                                    }
-                                    else if(this.nextGrid.info.yIndex == this.info.yIndex)
-                                    {
-                                        if(this.nextGrid.info.dir == player.Direction.LEFT)
-                                        {
-                                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                                        }
-                                        else
-                                        {
-                                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                                        }
-                                    }
-                
-                                    this.graphics.endFill();
-                                }
-                            }
-                             */
             },
             enumerable: true,
             configurable: true
@@ -263,6 +186,21 @@ var map;
                 c = 0xff00ff;
             }
             return c;
+        };
+        //能取到当前格子说明PLAYER肯定在格子上
+        BaseGrid.prototype.isOnGrid = function (p) {
+            return true;
+            // var x = p.x - this.x;
+            // var y = p.y - this.y;
+            // console.log(x+" " + y);
+            // if(x < 0 || y < 0 || x > GridConst.GRId_SIZE || y > GridConst.GRId_SIZE)
+            // {
+            // 	return false;
+            // }
+            // else
+            // {
+            // 	return true;
+            // }
         };
         return BaseGrid;
     }(egret.Sprite));

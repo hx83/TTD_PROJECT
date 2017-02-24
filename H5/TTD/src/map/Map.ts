@@ -10,8 +10,8 @@ module map
 
 		private DICT_KEY:string = "level_";
 
-		private mapLayer:egret.Sprite;
-		private playerLayer:egret.Sprite;
+		private mapLayer:egret.DisplayObjectContainer;
+		private playerLayer:egret.DisplayObjectContainer;
 		//地图关卡
 		private _mapLevel:number;
 		private playerStartPoint:egret.Point;
@@ -26,6 +26,7 @@ module map
 
 		public reset():void
 		{
+
 			this._mapLevel = 1;
 			
 			this.mapDict = new utils.Dictionary<Array<BaseGrid>>();
@@ -41,6 +42,7 @@ module map
 			this.mapLayer = new egret.Sprite();
 			this.playerLayer = new egret.Sprite();
 
+			this.mapLayer.cacheAsBitmap = false;
 			this.addChild(this.mapLayer);
 			this.addChild(this.playerLayer);
 			
@@ -49,6 +51,8 @@ module map
 				
 			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 			this.createMap(this._mapLevel+1,list[list.length-1].info);
+
+			this.mapLayer.cacheAsBitmap = true;
 		}
 		//
 		//添加人物
@@ -67,10 +71,16 @@ module map
 		{
 			if(v > this._mapLevel)
 			{
-				this.removeOldMap(this._mapLevel);
+				this.mapLayer.cacheAsBitmap = false;
+				if(this._mapLevel - 1 > 0)
+				{
+					this.removeOldMap(this._mapLevel - 1);
+				}
 				this._mapLevel = v;
 				var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 				this.createMap(this._mapLevel+1,list[list.length-1].info);
+				
+				this.mapLayer.cacheAsBitmap = true;
 			}
 		}
 		//以某个格子为起点创建地图
@@ -104,6 +114,8 @@ module map
 				//dict.add(node.xIndex+"_"+node.yIndex,grid);
 				list.push(grid);
 				this.allGridDict.add(node.xIndex+"_"+node.yIndex,grid);
+
+				
 			}
 		}
 		//坐标点是否在路径上
@@ -148,7 +160,7 @@ module map
 			if(grid != null)
 			{
 				var dir = this.getNextMoveDir(grid);
-				console.log("touch dir:"+dir);
+				//console.log("touch dir:"+dir);
 				if(dir == this.player.direction)
 				{
 					this.player.jump();
@@ -168,6 +180,10 @@ module map
 			{
 				return this.player.direction;
 			}
+			else if(nextGrid.info.type == GridType.EMPTY)
+			{
+				return this.player.direction;
+			}
 
 			while(n <3 && nextGrid.info.dir == this.player.direction)
 			{
@@ -176,7 +192,14 @@ module map
 				if(nextGrid == null)
 				{
 					return this.player.direction;
-				}		
+				}
+				else
+				{
+					if(nextGrid.info.type == GridType.EMPTY)
+					{
+						return this.player.direction;
+					}
+				}
 			}
 
 			return nextGrid.info.dir;
@@ -184,6 +207,7 @@ module map
 
 		private removeOldMap(level:number)
 		{
+			//console.log("remove map :" + level);
 			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+level];
 			if(list != null)
 			{

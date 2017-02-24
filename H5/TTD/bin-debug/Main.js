@@ -38,6 +38,7 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        _this.runTime = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         Main.instance = _this;
         return _this;
@@ -136,7 +137,8 @@ var Main = (function (_super) {
         this.addEventListener(egret.Event.ENTER_FRAME, this.onEnter, this);
     };
     Main.prototype.onEnter = function () {
-        this.gameScene.update();
+        this.gameScene.update(egret.getTimer() - this.runTime);
+        this.runTime = egret.getTimer();
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

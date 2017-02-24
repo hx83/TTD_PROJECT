@@ -16,16 +16,18 @@ var player;
             _this.SKIN_NAME = "player_skin_";
             _this._skinID = 0;
             _this._speed = 0;
-            _this.skinSprite = new egret.Sprite();
-            _this.addChild(_this.skinSprite);
+            _this._isJump = false;
+            //this.skinSprite = new egret.Sprite();
+            //this.addChild(this.skinSprite);
             _this.skinID = 0;
-            _this.speed = 5;
+            _this.speed = 4;
             _this.direction = player.Direction.TOP;
             _this.deadIcon = utils.DisplayObjectUtil.createBitmapByName("dead_icon_png");
             _this.deadIcon.anchorOffsetX = _this.deadIcon.width / 2;
             _this.deadIcon.anchorOffsetY = _this.deadIcon.height / 2;
             _this.deadIcon.x = 0;
             _this.deadIcon.y = 0;
+            _this.cacheAsBitmap = true;
             return _this;
         }
         Object.defineProperty(Player.prototype, "skinID", {
@@ -36,7 +38,8 @@ var player;
             set: function (v) {
                 this._skinID = v;
                 this._playerImg = utils.DisplayObjectUtil.createBitmapByName(this.SKIN_NAME + this.skinID + "_png");
-                this.skinSprite.addChild(this._playerImg);
+                //this.skinSprite.addChild(this._playerImg);
+                this.addChild(this._playerImg);
                 this._playerImg.anchorOffsetX = this._playerImg.width / 2;
                 this._playerImg.anchorOffsetY = this._playerImg.height / 2;
                 this._playerImg.x = 0;
@@ -73,22 +76,22 @@ var player;
                 if (dir == player.Direction.LEFT) {
                     this._xPower = -1;
                     this._yPower = 0;
-                    this.skinSprite.rotation = -90;
+                    this._playerImg.rotation = -90;
                 }
                 else if (dir == player.Direction.TOP) {
                     this._xPower = 0;
                     this._yPower = -1;
-                    this.skinSprite.rotation = 0;
+                    this._playerImg.rotation = 0;
                 }
                 else if (dir == player.Direction.RIGHT) {
                     this._xPower = 1;
                     this._yPower = 0;
-                    this.skinSprite.rotation = 90;
+                    this._playerImg.rotation = 90;
                 }
                 else if (dir == player.Direction.BOTTOM) {
                     this._xPower = 0;
                     this._yPower = 1;
-                    this.skinSprite.rotation = 180;
+                    this._playerImg.rotation = 180;
                 }
             },
             enumerable: true,
@@ -96,10 +99,26 @@ var player;
         });
         //跳跃
         Player.prototype.jump = function () {
-            console.log("player jump.......");
+            //console.log("player jump.......");
+            this._isJump = true;
+            var time = 300;
+            egret.Tween.get(this).to({ scaleX: 1.2, scaleY: 1.2 }, time).to({ scaleX: 1, scaleY: 1 }, time).call(this.jumpOver, this);
         };
+        Player.prototype.jumpOver = function () {
+            this._isJump = false;
+        };
+        Object.defineProperty(Player.prototype, "isUndead", {
+            //是否不会死
+            get: function () {
+                return this._isJump;
+            },
+            enumerable: true,
+            configurable: true
+        });
         //人物移动
-        Player.prototype.move = function () {
+        Player.prototype.move = function (time) {
+            // this.x += this._xPower*this.speed*time/1000;
+            // this.y += this._yPower*this.speed*time/1000;
             this.x += this._xPower * this.speed;
             this.y += this._yPower * this.speed;
         };
@@ -120,7 +139,7 @@ var player;
             this.direction = player.Direction.TOP;
         };
         return Player;
-    }(egret.Sprite));
+    }(egret.DisplayObjectContainer));
     player.Player = Player;
     __reflect(Player.prototype, "player.Player");
 })(player || (player = {}));

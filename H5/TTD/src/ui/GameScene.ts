@@ -12,10 +12,12 @@ module ui
 
 		private bmpStrings:string[] = ["num_3_png","num_2_png","num_1_png","go_png"];
 
-		private touchSprite:egret.Sprite;
+		private touchSprite:egret.Shape;
 
 		private resultPanel:ResultPanel;
 		private orResultPanelY:number;
+
+		
 
 		public constructor() 
 		{
@@ -38,7 +40,7 @@ module ui
 
 			this.numBmp = new egret.Bitmap();
 
-			this.touchSprite = new egret.Sprite();
+			this.touchSprite = new egret.Shape();
 			this.touchSprite.graphics.beginFill(0,0.4);
 			this.touchSprite.graphics.drawRect(0,0,StageManager.stageWidth,StageManager.stageHeight);
 			this.touchSprite.graphics.endFill();
@@ -70,27 +72,31 @@ module ui
 			this._map.touchHandler();
 		}
 
-		public update():void
+		public update(time:number):void
 		{
 			if(this.isStart == false || this.isDead == true)
 			{
+				
 				return;
 			}
 			//console.log(this._map.isOnMap(this.player.x,this.player.y));
 			var grid:map.BaseGrid = this._map.getPlayerGrid();
-			if(grid == null)
+			if(grid == null || !grid.isOnGrid(this.player))
 			{
-				console.warn("dead!");
+				if(this.player.isUndead == false)
+				{
+					console.warn("dead!");
 
-				this.end();
+					this.end();
 
-				return;
+					return;
+				}
 			}
 			else
 			{
 				this._map.mapLevel = grid.info.mapLevel;
 			}
-			this.player.move();
+			this.player.move(time);
 		}
 
 		public start():void

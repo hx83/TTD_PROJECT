@@ -1,7 +1,7 @@
 module player 
 {
 	//地图上奔跑的玩家
-	export class Player extends egret.Sprite
+	export class Player extends egret.DisplayObjectContainer
 	{
 		protected SKIN_NAME:string = "player_skin_";
 		protected _skinID:number = 0;
@@ -12,18 +12,19 @@ module player
 
 		protected _xPower:number;
 		protected _yPower:number;
-		protected skinSprite:egret.Sprite;
+		//protected skinSprite:egret.Sprite;
 
 		protected deadIcon:egret.Bitmap;
+		protected _isJump:boolean = false;
 
 		public constructor() 
 		{
 			super();
-			this.skinSprite = new egret.Sprite();
-			this.addChild(this.skinSprite);
+			//this.skinSprite = new egret.Sprite();
+			//this.addChild(this.skinSprite);
 
 			this.skinID = 0;
-			this.speed = 5;
+			this.speed = 4;
 			this.direction = Direction.TOP;
 
 			this.deadIcon = utils.DisplayObjectUtil.createBitmapByName("dead_icon_png");
@@ -32,13 +33,15 @@ module player
 			this.deadIcon.x = 0;
 			this.deadIcon.y = 0;
 			
+			this.cacheAsBitmap = true;
 		}
 		//设置皮肤
 		public set skinID(v:number)
 		{
 			this._skinID = v;
 			this._playerImg = utils.DisplayObjectUtil.createBitmapByName(this.SKIN_NAME + this.skinID + "_png");
-			this.skinSprite.addChild(this._playerImg);
+			//this.skinSprite.addChild(this._playerImg);
+			this.addChild(this._playerImg);
 			this._playerImg.anchorOffsetX = this._playerImg.width/2;
 			this._playerImg.anchorOffsetY = this._playerImg.height/2;
 			this._playerImg.x = 0;
@@ -74,25 +77,25 @@ module player
 			{
 				this._xPower = -1;
 				this._yPower = 0;
-				this.skinSprite.rotation = -90;
+				this._playerImg.rotation = -90;
 			}
 			else if(dir == Direction.TOP)
 			{
 				this._xPower = 0;
 				this._yPower = -1;
-				this.skinSprite.rotation = 0;
+				this._playerImg.rotation = 0;
 			}
 			else if(dir == Direction.RIGHT)
 			{
 				this._xPower = 1;
 				this._yPower = 0;
-				this.skinSprite.rotation = 90;
+				this._playerImg.rotation = 90;
 			}
 			else if(dir == Direction.BOTTOM)
 			{
 				this._xPower = 0;
 				this._yPower = 1;
-				this.skinSprite.rotation = 180;
+				this._playerImg.rotation = 180;
 			}
 		}
 
@@ -103,11 +106,25 @@ module player
 		//跳跃
 		public jump():void
 		{
-			console.log("player jump.......");
+			//console.log("player jump.......");
+			this._isJump = true;
+			var time = 300;
+			egret.Tween.get(this).to({scaleX:1.2,scaleY:1.2},time).to({scaleX:1,scaleY:1},time).call(this.jumpOver,this);
+		}
+		private jumpOver():void
+		{
+			this._isJump = false;
+		}
+		//是否不会死
+		public get isUndead():boolean
+		{
+			return this._isJump;
 		}
 		//人物移动
-		public move():void
+		public move(time:number):void
 		{
+			// this.x += this._xPower*this.speed*time/1000;
+			// this.y += this._yPower*this.speed*time/1000;
 			this.x += this._xPower*this.speed;
 			this.y += this._yPower*this.speed;
 		}

@@ -29,12 +29,14 @@ var map;
             }
             this.mapLayer = new egret.Sprite();
             this.playerLayer = new egret.Sprite();
+            this.mapLayer.cacheAsBitmap = false;
             this.addChild(this.mapLayer);
             this.addChild(this.playerLayer);
             //第一次生成两个关卡，保持地图连贯
             this.createMap(this.mapLevel);
             var list = this.mapDict[this.DICT_KEY + this.mapLevel];
             this.createMap(this._mapLevel + 1, list[list.length - 1].info);
+            this.mapLayer.cacheAsBitmap = true;
         };
         //
         //添加人物
@@ -49,10 +51,14 @@ var map;
             },
             set: function (v) {
                 if (v > this._mapLevel) {
-                    this.removeOldMap(this._mapLevel);
+                    this.mapLayer.cacheAsBitmap = false;
+                    if (this._mapLevel - 1 > 0) {
+                        this.removeOldMap(this._mapLevel - 1);
+                    }
                     this._mapLevel = v;
                     var list = this.mapDict[this.DICT_KEY + this.mapLevel];
                     this.createMap(this._mapLevel + 1, list[list.length - 1].info);
+                    this.mapLayer.cacheAsBitmap = true;
                 }
             },
             enumerable: true,
@@ -117,7 +123,7 @@ var map;
             var grid = this.getPlayerGrid();
             if (grid != null) {
                 var dir = this.getNextMoveDir(grid);
-                console.log("touch dir:" + dir);
+                //console.log("touch dir:"+dir);
                 if (dir == this.player.direction) {
                     this.player.jump();
                 }
@@ -133,16 +139,25 @@ var map;
             if (nextGrid == null) {
                 return this.player.direction;
             }
+            else if (nextGrid.info.type == map.GridType.EMPTY) {
+                return this.player.direction;
+            }
             while (n < 3 && nextGrid.info.dir == this.player.direction) {
                 n++;
                 nextGrid = nextGrid.nextGrid;
                 if (nextGrid == null) {
                     return this.player.direction;
                 }
+                else {
+                    if (nextGrid.info.type == map.GridType.EMPTY) {
+                        return this.player.direction;
+                    }
+                }
             }
             return nextGrid.info.dir;
         };
         Map.prototype.removeOldMap = function (level) {
+            //console.log("remove map :" + level);
             var list = this.mapDict[this.DICT_KEY + level];
             if (list != null) {
                 list.forEach(function (grid, index, array) {

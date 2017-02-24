@@ -22,7 +22,7 @@ module map
 		{
 			//this.dirArr = new Array<player.Direction>();
 			//this.dirArr.push(player.Direction.LEFT,player.Direction.RIGHT,player.Direction.TOP);
-
+			this.MAX = MapConfig.getMapLength(level);
 			this.count = 0;
 			if(p == null)
 			{
@@ -50,7 +50,7 @@ module map
 		private static create(level:number):void
 		{
 			var node:MapNode;
-			if(this.count < 5 || this.count > this.MAX - 5)
+			if(this.count < 10000|| this.count > this.MAX - 100)
 			{
 				node = this.createNode(player.Direction.TOP);				
 			}
@@ -88,7 +88,7 @@ module map
 					//如果直接改变当前格子，那么拐点有可能就变成空白格了
 					if(node.prevNode.prevNode != null)
 					{
-						if(node.prevNode.dir == node.dir && node.prevNode.prevNode.type != GridType.EMPTY)
+						if(node.prevNode.dir == node.dir && node.prevNode.prevNode.dir == node.dir && node.prevNode.prevNode.type != GridType.EMPTY)
 						{
 							node.prevNode.type = GridType.EMPTY;
 						}

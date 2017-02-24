@@ -43,6 +43,7 @@ var ui;
             _this.restartBtn.x = _this.width / 2;
             _this.restartBtn.y = _this.height / 2 + 30;
             _this.addChild(_this.restartBtn);
+            _this.cacheAsBitmap = true;
             _this.addEvent();
             return _this;
         }
@@ -53,7 +54,7 @@ var ui;
             this.dispatchEvent(new events.GameEvent(events.GameEvent.RESTART_GAME));
         };
         return ResultPanel;
-    }(egret.Sprite));
+    }(egret.DisplayObjectContainer));
     ui.ResultPanel = ResultPanel;
     __reflect(ResultPanel.prototype, "ui.ResultPanel");
 })(ui || (ui = {}));

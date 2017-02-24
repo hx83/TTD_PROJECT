@@ -6,6 +6,10 @@ module map
 		public constructor() 
 		{
 		}
+		public static getMapLength(mapLevel:number):number
+		{
+			return 32;
+		}
 		/**获取地图配置的崎岖度 -- 控制拐点频率*/
 		public static getBendingRank(mapLevel:number):number
 		{
@@ -25,7 +29,7 @@ module map
 				{
 					n = 1;
 				}
-				return n;
+				return 3;
 			}
 		}
 		/**获取地图配置的间隔度 -- 控制路径上出现空白的频率*/
@@ -44,7 +48,7 @@ module map
 				{
 					n = 1;
 				}
-				return n;
+				return 3;
 			}
 		}
 	}

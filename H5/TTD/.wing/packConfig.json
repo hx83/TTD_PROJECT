@@ -1,0 +1,9 @@
+{
+    "useClip": false,
+    "maxImageWidth": 2048,
+    "maxImageHeight": 2048,
+    "defaultResPath": "d:\\work\\FO\\Tap Tap Dash\\TTD_PROJECT\\H5\\TTD\\resource\\default.res.json",
+    "packGroups": {
+        "preload": true
+    }
+}

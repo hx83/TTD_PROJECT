@@ -40,6 +40,8 @@ class Main extends egret.DisplayObjectContainer {
     private container:egret.Sprite;
     public static instance:Main;
 
+    private runTime:number = 0;
+
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -167,7 +169,8 @@ class Main extends egret.DisplayObjectContainer {
     }
     private onEnter():void
     {
-        this.gameScene.update();        
+        this.gameScene.update(egret.getTimer() - this.runTime);        
+        this.runTime = egret.getTimer();
     }
 
     /**

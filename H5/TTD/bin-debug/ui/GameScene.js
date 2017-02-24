@@ -26,7 +26,7 @@ var ui;
             Camera.follow(_this.player);
             _this.timer = new egret.Timer(1000, 5);
             _this.numBmp = new egret.Bitmap();
-            _this.touchSprite = new egret.Sprite();
+            _this.touchSprite = new egret.Shape();
             _this.touchSprite.graphics.beginFill(0, 0.4);
             _this.touchSprite.graphics.drawRect(0, 0, StageManager.stageWidth, StageManager.stageHeight);
             _this.touchSprite.graphics.endFill();
@@ -50,21 +50,23 @@ var ui;
             }
             this._map.touchHandler();
         };
-        GameScene.prototype.update = function () {
+        GameScene.prototype.update = function (time) {
             if (this.isStart == false || this.isDead == true) {
                 return;
             }
             //console.log(this._map.isOnMap(this.player.x,this.player.y));
             var grid = this._map.getPlayerGrid();
-            if (grid == null) {
-                console.warn("dead!");
-                this.end();
-                return;
+            if (grid == null || !grid.isOnGrid(this.player)) {
+                if (this.player.isUndead == false) {
+                    console.warn("dead!");
+                    this.end();
+                    return;
+                }
             }
             else {
                 this._map.mapLevel = grid.info.mapLevel;
             }
-            this.player.move();
+            this.player.move(time);
         };
         GameScene.prototype.start = function () {
             //this.isStart = true;
