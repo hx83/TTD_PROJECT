@@ -35,111 +35,84 @@ var map;
                 this.x = v.xIndex * map.GridConst.GRId_SIZE;
                 this.y = v.yIndex * map.GridConst.GRId_SIZE;
                 this.setGridSkin();
-                /**
                 //根据路径的情况绘制不同的形状
                 var c = this.getGridColor();
-                if(this.info.prevNode != null && this.info.nextNode != null && this.info.prevNode.type == GridType.EMPTY && this.info.nextNode.type == GridType.EMPTY)
-                {
+                if (this.info.prevNode != null && this.info.nextNode != null && this.info.prevNode.type == map.GridType.EMPTY && this.info.nextNode.type == map.GridType.EMPTY) {
                     this.info.isShowArrow = true;
-    
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
+                    this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2);
                     this.graphics.endFill();
                 }
-                else if(this.info.nextNode != null && this.info.nextNode.type == GridType.EMPTY)
-                {
+                else if (this.info.nextNode != null && this.info.nextNode.type == map.GridType.EMPTY) {
                     this.info.isShowArrow = true;
-    
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
-                    
-                    if(this.info.dir == player.Direction.TOP)
-                    {
-                        this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2);
+                    if (this.info.dir == player.Direction.TOP) {
+                        this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
                     }
-                    else if(this.info.dir == player.Direction.BOTTOM)
-                    {
-                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    else if (this.info.dir == player.Direction.BOTTOM) {
+                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
                     }
-                    else if(this.info.dir == player.Direction.LEFT)
-                    {
-                        this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    else if (this.info.dir == player.Direction.LEFT) {
+                        this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
                     }
-                    else if(this.info.dir == player.Direction.RIGHT)
-                    {
-                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    else if (this.info.dir == player.Direction.RIGHT) {
+                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
                     }
                     this.graphics.endFill();
                 }
-                else if(this.info.prevNode != null && this.info.prevNode.type == GridType.EMPTY)
-                {
+                else if (this.info.prevNode != null && this.info.prevNode.type == map.GridType.EMPTY) {
                     this.info.isShowArrow = true;
-                    
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawCircle(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
-                    
-                    var dir:player.Direction = this.info.nextNode.dir;
-                    if(dir  == player.Direction.TOP)
-                    {
-                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2);
+                    var dir = this.info.nextNode.dir;
+                    if (dir == player.Direction.TOP) {
+                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
                     }
-                    else if(dir == player.Direction.BOTTOM)
-                    {
-                        this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    else if (dir == player.Direction.BOTTOM) {
+                        this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
                     }
-                    else if(dir == player.Direction.LEFT)
-                    {
-                        this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    else if (dir == player.Direction.LEFT) {
+                        this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
                     }
-                    else if(dir == player.Direction.RIGHT)
-                    {
-                        this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    else if (dir == player.Direction.RIGHT) {
+                        this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
                     }
                     this.graphics.endFill();
                 }
-                else if(this.info.nextNode != null && this.info.nextNode.dir != this.info.dir)
-                {
+                else if (this.info.nextNode != null && this.info.nextNode.dir != this.info.dir) {
                     //如果是拐角，则要圆角矩形
                     this.graphics.clear();
                     this.graphics.beginFill(c);
-                    this.graphics.drawRoundRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE,GridConst.GRId_SIZE/4,GridConst.GRId_SIZE/4);
-    
-                    if(this.info.nextNode.xIndex == this.info.xIndex)
-                    {
-                        if(this.info.dir == player.Direction.LEFT)
-                        {
-                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                    this.graphics.drawRoundRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 4, map.GridConst.GRId_SIZE / 4);
+                    if (this.info.nextNode.xIndex == this.info.xIndex) {
+                        if (this.info.dir == player.Direction.LEFT) {
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                            this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
                         }
-                        else
-                        {
-                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
-                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+                        else {
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
                         }
                     }
-                    else if(this.info.nextNode.yIndex == this.info.yIndex)
-                    {
-                        if(this.info.nextNode.dir == player.Direction.LEFT)
-                        {
-                            this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                    else if (this.info.nextNode.yIndex == this.info.yIndex) {
+                        if (this.info.nextNode.dir == player.Direction.LEFT) {
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                            this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
                         }
-                        else
-                        {
-                            this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
-                            this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+                        else {
+                            this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                            this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
                         }
                     }
-    
                     this.graphics.endFill();
                 }
-                 */
                 //
-                var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + 1 + "_png");
-                this.addChild(bmp);
+                // var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + 1 + "_png");
+                // 	this.addChild(bmp);
                 if (this.info.isShowArrow) {
                     var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + v.nextNode.dir + "_png");
                     this.addChild(bmp);

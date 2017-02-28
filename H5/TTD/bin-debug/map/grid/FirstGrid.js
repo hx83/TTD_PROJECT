@@ -13,14 +13,6 @@ var map;
         function FirstGrid() {
             return _super.call(this) || this;
         }
-        FirstGrid.prototype.setGridSkin = function () {
-            var c = this.getGridColor();
-            this.graphics.clear();
-            this.graphics.beginFill(c);
-            //this.graphics.lineStyle(1,0);
-            this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE * 1.5);
-            this.graphics.endFill();
-        };
         return FirstGrid;
     }(map.BaseGrid));
     map.FirstGrid = FirstGrid;

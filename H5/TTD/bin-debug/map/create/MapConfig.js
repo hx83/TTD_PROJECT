@@ -7,7 +7,7 @@ var map;
         function MapConfig() {
         }
         MapConfig.getMapLength = function (mapLevel) {
-            return 32;
+            return 100;
         };
         /**获取地图配置的崎岖度 -- 控制拐点频率*/
         MapConfig.getBendingRank = function (mapLevel) {

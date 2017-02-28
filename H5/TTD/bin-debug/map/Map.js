@@ -18,7 +18,9 @@ var map;
             return _this;
         }
         Map.prototype.reset = function () {
+            this.prevContainerPos = new egret.Point();
             this._mapLevel = 1;
+            this.mapContainerDict = new utils.Dictionary();
             this.mapDict = new utils.Dictionary();
             this.allGridDict = new utils.Dictionary();
             if (this.mapLayer != null) {
@@ -29,14 +31,14 @@ var map;
             }
             this.mapLayer = new egret.Sprite();
             this.playerLayer = new egret.Sprite();
-            this.mapLayer.cacheAsBitmap = false;
+            //this.mapLayer.cacheAsBitmap = false;
             this.addChild(this.mapLayer);
             this.addChild(this.playerLayer);
             //第一次生成两个关卡，保持地图连贯
             this.createMap(this.mapLevel);
             var list = this.mapDict[this.DICT_KEY + this.mapLevel];
             this.createMap(this._mapLevel + 1, list[list.length - 1].info);
-            this.mapLayer.cacheAsBitmap = true;
+            //this.mapLayer.cacheAsBitmap = true;
         };
         //
         //添加人物
@@ -51,14 +53,13 @@ var map;
             },
             set: function (v) {
                 if (v > this._mapLevel) {
-                    this.mapLayer.cacheAsBitmap = false;
+                    //this.mapLayer.cacheAsBitmap = false;
                     if (this._mapLevel - 1 > 0) {
                         this.removeOldMap(this._mapLevel - 1);
                     }
                     this._mapLevel = v;
                     var list = this.mapDict[this.DICT_KEY + this.mapLevel];
                     this.createMap(this._mapLevel + 1, list[list.length - 1].info);
-                    this.mapLayer.cacheAsBitmap = true;
                 }
             },
             enumerable: true,
@@ -70,6 +71,10 @@ var map;
             var prevGrid = null;
             var list = new Array();
             this.mapDict.add(this.DICT_KEY + level, list);
+            var container = new egret.DisplayObjectContainer();
+            this.mapContainerDict.add(this.DICT_KEY + level, container);
+            container.x = this.prevContainerPos.x;
+            container.y = this.prevContainerPos.y;
             var arr = map.MapFactory.createMapData(level, node);
             for (var index = 0; index < arr.length; index++) {
                 var node = arr[index];
@@ -84,11 +89,19 @@ var map;
                 if (index == 0 && level == 1) {
                     this.playerStartPoint = new egret.Point(grid.x + node.centerPoint.x, grid.y + node.centerPoint.y);
                 }
-                this.mapLayer.addChild(grid);
+                container.addChild(grid);
+                grid.x = grid.x - this.prevContainerPos.x;
+                grid.y = grid.y - this.prevContainerPos.y;
+                //this.mapLayer.addChild(grid);
                 //dict.add(node.xIndex+"_"+node.yIndex,grid);
                 list.push(grid);
                 this.allGridDict.add(node.xIndex + "_" + node.yIndex, grid);
+                if (index == arr.length - 1) {
+                    this.prevContainerPos = new egret.Point(grid.x, grid.y);
+                }
             }
+            this.mapLayer.addChild(container);
+            container.cacheAsBitmap = true;
         };
         //坐标点是否在路径上
         Map.prototype.isOnMap = function (x, y) {
@@ -157,13 +170,20 @@ var map;
             return nextGrid.info.dir;
         };
         Map.prototype.removeOldMap = function (level) {
-            //console.log("remove map :" + level);
+            var container = this.mapContainerDict[this.DICT_KEY + level];
+            utils.DisplayObjectUtil.removeFromParent(container);
             var list = this.mapDict[this.DICT_KEY + level];
-            if (list != null) {
-                list.forEach(function (grid, index, array) {
-                    utils.DisplayObjectUtil.removeFromParent(grid);
-                });
-            }
+            list = null;
+            this.mapDict.remove(this.DICT_KEY + level);
+            //console.log("remove map :" + level);
+            // var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+level];
+            // if(list != null)
+            // {
+            // 	list.forEach((grid:BaseGrid,index:number,array:BaseGrid[])=>
+            // 	{
+            // 		utils.DisplayObjectUtil.removeFromParent(grid);
+            // 	});
+            // }
         };
         return Map;
     }(egret.Sprite));

@@ -56,7 +56,8 @@ var ui;
             }
             //console.log(this._map.isOnMap(this.player.x,this.player.y));
             var grid = this._map.getPlayerGrid();
-            if (grid == null || !grid.isOnGrid(this.player)) {
+            this.player.direction = grid.info.nextNode.dir;
+            if (grid == null /**|| !grid.isOnGrid(this.player)*/) {
                 if (this.player.isUndead == false) {
                     console.warn("dead!");
                     this.end();

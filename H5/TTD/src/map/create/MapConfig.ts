@@ -8,7 +8,7 @@ module map
 		}
 		public static getMapLength(mapLevel:number):number
 		{
-			return 32;
+			return 100;
 		}
 		/**获取地图配置的崎岖度 -- 控制拐点频率*/
 		public static getBendingRank(mapLevel:number):number

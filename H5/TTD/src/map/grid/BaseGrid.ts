@@ -36,7 +36,7 @@ module map
 
 			this.setGridSkin();
 
-			/**
+			
 			//根据路径的情况绘制不同的形状
 			var c = this.getGridColor();
 			if(this.info.prevNode != null && this.info.nextNode != null && this.info.prevNode.type == GridType.EMPTY && this.info.nextNode.type == GridType.EMPTY)
@@ -137,10 +137,10 @@ module map
 
 				this.graphics.endFill();
 			}
-			 */
+			
 			//
-			var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + 1 + "_png");
-				this.addChild(bmp);
+			// var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + 1 + "_png");
+			// 	this.addChild(bmp);
 			if(this.info.isShowArrow)
 			{
 				var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + v.nextNode.dir + "_png");

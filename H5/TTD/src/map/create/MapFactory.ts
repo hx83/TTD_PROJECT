@@ -50,7 +50,7 @@ module map
 		private static create(level:number):void
 		{
 			var node:MapNode;
-			if(this.count < 10000|| this.count > this.MAX - 100)
+			if(this.count < 5|| this.count > this.MAX - 5)
 			{
 				node = this.createNode(player.Direction.TOP);				
 			}

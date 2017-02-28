@@ -4,6 +4,8 @@ module map
 	export class Map extends egret.Sprite
 	{
 		//记录每个关卡对应的格子
+		private mapContainerDict:utils.Dictionary<egret.DisplayObjectContainer>;
+		//记录每个关卡对应的格子
 		private mapDict:utils.Dictionary<Array<BaseGrid>>;
 		//地图上所有的格子
 		private allGridDict:utils.Dictionary<BaseGrid>;
@@ -17,6 +19,8 @@ module map
 		private playerStartPoint:egret.Point;
 		private player:player.Player;
 
+		private prevContainerPos:egret.Point;
+
 		public constructor() 
 		{
 			super();
@@ -26,9 +30,10 @@ module map
 
 		public reset():void
 		{
+			this.prevContainerPos = new egret.Point();
 
 			this._mapLevel = 1;
-			
+			this.mapContainerDict = new utils.Dictionary<egret.DisplayObjectContainer>();
 			this.mapDict = new utils.Dictionary<Array<BaseGrid>>();
 			this.allGridDict = new utils.Dictionary<BaseGrid>();
 			if(this.mapLayer != null)
@@ -42,7 +47,7 @@ module map
 			this.mapLayer = new egret.Sprite();
 			this.playerLayer = new egret.Sprite();
 
-			this.mapLayer.cacheAsBitmap = false;
+			//this.mapLayer.cacheAsBitmap = false;
 			this.addChild(this.mapLayer);
 			this.addChild(this.playerLayer);
 			
@@ -52,7 +57,7 @@ module map
 			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 			this.createMap(this._mapLevel+1,list[list.length-1].info);
 
-			this.mapLayer.cacheAsBitmap = true;
+			//this.mapLayer.cacheAsBitmap = true;
 		}
 		//
 		//添加人物
@@ -71,7 +76,7 @@ module map
 		{
 			if(v > this._mapLevel)
 			{
-				this.mapLayer.cacheAsBitmap = false;
+				//this.mapLayer.cacheAsBitmap = false;
 				if(this._mapLevel - 1 > 0)
 				{
 					this.removeOldMap(this._mapLevel - 1);
@@ -80,7 +85,7 @@ module map
 				var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 				this.createMap(this._mapLevel+1,list[list.length-1].info);
 				
-				this.mapLayer.cacheAsBitmap = true;
+				//this.mapLayer.cacheAsBitmap = true;
 			}
 		}
 		//以某个格子为起点创建地图
@@ -90,6 +95,11 @@ module map
 
 			var list:Array<BaseGrid> = new Array<BaseGrid>();
 			this.mapDict.add(this.DICT_KEY + level,list);
+
+			var container:egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
+			this.mapContainerDict.add(this.DICT_KEY + level,container);
+			container.x = this.prevContainerPos.x;
+			container.y = this.prevContainerPos.y;
 
 			var arr:Array<MapNode> = MapFactory.createMapData(level,node);
 			for (var index = 0; index < arr.length; index++) 
@@ -110,13 +120,20 @@ module map
 				{
 					this.playerStartPoint = new egret.Point(grid.x + node.centerPoint.x,grid.y + node.centerPoint.y);
 				}
-				this.mapLayer.addChild(grid);
+				container.addChild(grid);
+				grid.x = grid.x - this.prevContainerPos.x;
+				grid.y = grid.y - this.prevContainerPos.y;
+				//this.mapLayer.addChild(grid);
 				//dict.add(node.xIndex+"_"+node.yIndex,grid);
 				list.push(grid);
-				this.allGridDict.add(node.xIndex+"_"+node.yIndex,grid);
-
-				
+				this.allGridDict.add(node.xIndex+"_"+node.yIndex,grid);	
+				if(index == arr.length - 1)
+				{
+					this.prevContainerPos = new egret.Point(grid.x,grid.y);	
+				}
 			}
+			this.mapLayer.addChild(container);
+			container.cacheAsBitmap = true;
 		}
 		//坐标点是否在路径上
 		public isOnMap(x:number,y:number):boolean
@@ -207,15 +224,21 @@ module map
 
 		private removeOldMap(level:number)
 		{
-			//console.log("remove map :" + level);
+			var container:egret.DisplayObjectContainer = this.mapContainerDict[this.DICT_KEY+level];
+			utils.DisplayObjectUtil.removeFromParent(container);
+			
 			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+level];
-			if(list != null)
-			{
-				list.forEach((grid:BaseGrid,index:number,array:BaseGrid[])=>
-				{
-					utils.DisplayObjectUtil.removeFromParent(grid);
-				});
-			}
+			list = null;
+			this.mapDict.remove(this.DICT_KEY+level);
+			//console.log("remove map :" + level);
+			// var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+level];
+			// if(list != null)
+			// {
+			// 	list.forEach((grid:BaseGrid,index:number,array:BaseGrid[])=>
+			// 	{
+			// 		utils.DisplayObjectUtil.removeFromParent(grid);
+			// 	});
+			// }
 		}
 	}
 }
